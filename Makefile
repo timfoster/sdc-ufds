@@ -47,6 +47,7 @@ SMF_MANIFESTS_IN	 = smf/manifests/ufds-master.xml.in \
 			smf/manifests/ufds-replicator.xml.in
 
 CLEAN_FILES	+= node_modules cscope.files coverage
+DISTCLEAN_FILES += $(NAME)-pkg-*.tar.bz2
 
 NODE_PREBUILT_VERSION=v0.10.48
 # sdc-minimal-multiarch-lts 15.4.1
@@ -57,13 +58,19 @@ ifeq ($(shell uname -s),SunOS)
 	NODE_PREBUILT_TAG=zone
 endif
 
-include ./tools/mk/Makefile.defs
+# XXX timf comment out during eng development
+#REQUIRE_ENG := $(shell git submodule update --init deps/eng)
+
+include ./deps/eng/tools/mk/Makefile.defs
+TOP ?= $(error Unable to access eng.git submodule Makefiles.)
+
 ifeq ($(shell uname -s),SunOS)
-	include ./tools/mk/Makefile.node_prebuilt.defs
+	include ./deps/eng/tools/mk/Makefile.node_prebuilt.defs
+	include ./deps/eng/tools/mk/Makefile.agent_prebuilt.defs
 else
-	include ./tools/mk/Makefile.node.defs
+	include ./deps/eng/tools/mk/Makefile.node.defs
 endif
-include ./tools/mk/Makefile.smf.defs
+include ./deps/eng/tools/mk/Makefile.smf.defs
 
 #
 # Variables
@@ -74,6 +81,14 @@ include ./tools/mk/Makefile.smf.defs
 ROOT                    := $(shell pwd)
 RELEASE_TARBALL         := $(NAME)-pkg-$(STAMP).tar.bz2
 RELSTAGEDIR                  := /tmp/$(STAMP)
+
+BASE_IMAGE_UUID = 04a48d7d-6bb5-4e83-8c3b-e60a99e0f48f
+BUILDIMAGE_NAME = $(NAME)
+BUILDIMAGE_DESC	= SDC UFDS
+BUILDIMAGE_PKG	= $(PWD)/$(RELEASE_TARBALL)
+BUILDIMAGE_PKGSRC = postgresql91-client-9.1.24
+BUILDIMAGE_STAGEDIR = /tmp/buildimage-$(NAME)-$(STAMP)
+AGENTS		= amon config registrar
 
 #
 # Env vars
@@ -156,14 +171,14 @@ publish: release
 	cp $(ROOT)/$(RELEASE_TARBALL) $(BITS_DIR)/$(NAME)/$(RELEASE_TARBALL)
 
 
-include ./tools/mk/Makefile.deps
+include ./deps/eng/tools/mk/Makefile.deps
 ifeq ($(shell uname -s),SunOS)
-	include ./tools/mk/Makefile.node_prebuilt.targ
+	include ./deps/eng/tools/mk/Makefile.node_prebuilt.targ
+	include ./deps/eng/tools/mk/Makefile.agent_prebuilt.targ
 else
-	include ./tools/mk/Makefile.node.targ
+	include ./deps/eng/tools/mk/Makefile.node.targ
 endif
-include ./tools/mk/Makefile.smf.targ
-include ./tools/mk/Makefile.targ
+include ./deps/eng/tools/mk/Makefile.smf.targ
+include ./deps/eng/tools/mk/Makefile.targ
 
 sdc-scripts: deps/sdc-scripts/.git
-
