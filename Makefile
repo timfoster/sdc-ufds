@@ -80,7 +80,7 @@ include ./deps/eng/tools/mk/Makefile.smf.defs
 
 ROOT                    := $(shell pwd)
 RELEASE_TARBALL         := $(NAME)-pkg-$(STAMP).tar.bz2
-RELSTAGEDIR                  := /tmp/$(STAMP)
+RELSTAGEDIR                  := /tmp/$(NAME)-$(STAMP)
 
 BASE_IMAGE_UUID = 04a48d7d-6bb5-4e83-8c3b-e60a99e0f48f
 BUILDIMAGE_NAME = $(NAME)
