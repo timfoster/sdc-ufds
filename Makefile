@@ -47,7 +47,6 @@ SMF_MANIFESTS_IN	 = smf/manifests/ufds-master.xml.in \
 			smf/manifests/ufds-replicator.xml.in
 
 CLEAN_FILES	+= node_modules cscope.files coverage
-DISTCLEAN_FILES += $(NAME)-pkg-*.tar.bz2
 
 NODE_PREBUILT_VERSION=v0.10.48
 # sdc-minimal-multiarch-lts 15.4.1
