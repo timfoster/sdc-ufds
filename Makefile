@@ -137,10 +137,10 @@ release: all docs
 	@mkdir -p $(RELSTAGEDIR)/root/opt/smartdc/ufds/etc
 	@mkdir -p $(RELSTAGEDIR)/root/opt/smartdc/ufds/ssl
 	cp -r   $(ROOT)/build \
-		$(ROOT)/capi \
-		$(ROOT)/capi.js \
-		$(ROOT)/replicator.js \
-		$(ROOT)/data \
+								$(ROOT)/capi \
+								$(ROOT)/capi.js \
+								$(ROOT)/replicator.js \
+								$(ROOT)/data \
 		$(ROOT)/deps/haproxy \
 		$(ROOT)/bin \
 		$(ROOT)/lib \
@@ -153,7 +153,6 @@ release: all docs
 		$(ROOT)/test \
 		$(RELSTAGEDIR)/root/opt/smartdc/ufds/
 	@mkdir -p $(RELSTAGEDIR)/root/opt/smartdc/boot
-	rm -rf $(RELSTAGEDIR)/root/opt/smartdc/ufds/build/bits
 	cp -R $(ROOT)/deps/sdc-scripts/* $(RELSTAGEDIR)/root/opt/smartdc/boot/
 	cp -R $(ROOT)/boot/* $(RELSTAGEDIR)/root/opt/smartdc/boot/
 	cp $(ROOT)/etc/haproxy.cfg.in $(RELSTAGEDIR)/root/opt/smartdc/ufds/etc
