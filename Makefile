@@ -76,7 +76,7 @@ include ./deps/eng/tools/mk/Makefile.smf.defs
 # Mountain Gorilla-spec'd versioning.
 
 ROOT                    := $(shell pwd)
-RELEASE_TARBALL         := $(NAME)-pkg-$(STAMP).tar.bz2
+RELEASE_TARBALL         := $(NAME)-pkg-$(STAMP).tar.gz
 RELSTAGEDIR                  := /tmp/$(NAME)-$(STAMP)
 
 BASE_IMAGE_UUID = 04a48d7d-6bb5-4e83-8c3b-e60a99e0f48f
@@ -153,7 +153,7 @@ release: all docs
 	cp -R $(ROOT)/deps/sdc-scripts/* $(RELSTAGEDIR)/root/opt/smartdc/boot/
 	cp -R $(ROOT)/boot/* $(RELSTAGEDIR)/root/opt/smartdc/boot/
 	cp $(ROOT)/etc/haproxy.cfg.in $(RELSTAGEDIR)/root/opt/smartdc/ufds/etc
-	(cd $(RELSTAGEDIR) && $(TAR) -jcf $(ROOT)/$(RELEASE_TARBALL) root site)
+	(cd $(RELSTAGEDIR) && $(TAR) -I pigz -cf $(ROOT)/$(RELEASE_TARBALL) root site)
 	@rm -rf $(RELSTAGEDIR)
 
 
