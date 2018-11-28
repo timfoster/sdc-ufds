@@ -57,7 +57,8 @@ ifeq ($(shell uname -s),SunOS)
 	NODE_PREBUILT_TAG=zone
 endif
 
-REQUIRE_ENG := $(shell git submodule update --init deps/eng)
+ENGBLD_USE_BUILDIMAGE	= true
+ENGBLD_REQUIRE		:= $(shell git submodule update --init deps/eng)
 include ./deps/eng/tools/mk/Makefile.defs
 TOP ?= $(error Unable to access eng.git submodule Makefiles.)
 
